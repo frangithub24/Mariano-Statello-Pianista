@@ -1,0 +1,696 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100&display=swap');
+/*creo custome properties, para acceder a ellas desde cualquier elemento:*/
+:root{
+    --padding-container: 100px 0;
+    --color-title:#001A49;
+}
+
+html {
+    font-size: 12px; /* Base para rem */
+    scroll-behavior: smooth;
+}
+body{
+    font-family: "Poppins", sans-serif;
+}
+
+/* Estilo para el ícono del menú hamburguesa */
+.nav_menuMobile {
+    cursor: pointer;
+    display: block; /* Siempre visible en mobile */
+    z-index: 100; /* Encima de otros elementos */    
+}
+.nav_img {
+    width: 40px;
+    height: 40px;
+    margin-right:20px;
+}
+
+/* Dropdown oculto por defecto */
+.nav_dropdown { 
+    position: fixed;
+    top: 0;
+    left: 0; 
+    width: 80%;
+    height: 100vh;
+    background: transparent;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 🔥 Transición más suave */
+    pointer-events: none;
+}
+
+
+.nav_dropdown.show {
+    transform: translateX(0);
+    background: rgba(255, 255, 255, 0.95); /* 🔥 Más blanco, menos gris */
+    backdrop-filter: blur(20px); /* 🔥 Blur más pronunciado */
+    -webkit-backdrop-filter: blur(20px);
+    width: 70%; /* 🔥 Un poco más ancho */
+    max-width: 320px; /* 🔥 Máximo en pantallas grandes */
+    height: auto; /* 🔥 Altura automática según contenido */
+    padding: 40px 30px 40px 30px; /* 🔥 Más padding */
+    border-radius: 0 0 25px 0; /* 🔥 Redondeo solo a la derecha */
+    box-shadow: 6px 0 40px rgba(0, 0, 0, 0.2); /* 🔥 Un poco más de sombra */
+    opacity: 1;
+    pointer-events: auto;
+    top: 0; /* 🔥 Desde arriba completo */
+}
+
+
+/* MEJORÁ tu overlay para que sea más oscuro y se note más el efecto: */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Lo hice más oscuro (era 0.5) */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 99; /* Asegurate que esté justo debajo del menú (que tiene z-index: 100) */
+}
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.nav_itemsMobile {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* 🔥 Sin gap, lo manejamos con padding */
+    margin-left: 0; /* 🔥 Sin margin negativo */
+    padding: 0;
+    list-style: none;
+}
+
+.nav_itemsMobile a {
+    display: block;
+    text-decoration: none;
+    color: #2c2c2c; /* 🔥 Gris más oscuro para mejor contraste */
+    font-size: 18px; /* 🔥 Más grande */
+    font-weight: 400; /* 🔥 Un poco más bold */
+    padding: 20px 15px; /* 🔥 Más padding vertical */
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav_itemsMobile a.active {
+    color: #8B3A3A; /* 🔥 Color burdeos/rojo del sitio */
+    font-weight: 600; /* 🔥 Más bold */
+    background: rgba(139, 58, 58, 0.08); /* 🔥 Fondo sutil */
+    border-left: 4px solid #8B3A3A; /* 🔥 Barra indicadora */
+    padding-left: 21px; /* 🔥 Compensa el borde */
+}
+/* Opcional: deshabilitar hover en el link activo */
+.nav_itemsMobile a.active:hover {
+    padding-left: 21px; /* No se desplaza al hover */
+    cursor: default; /* Cursor normal, no pointer */
+}
+/* 🔥 Efecto hover elegante */
+.nav_itemsMobile a:hover {
+    color: #8B3A3A; /* 🔥 Color acorde al sitio (burdeos) */
+    background: rgba(139, 58, 58, 0.05); /* 🔥 Fondo sutil al hover */
+    padding-left: 25px; /* 🔥 Se desplaza un poco a la derecha */
+}
+
+.nav_itemsMobile li {
+    list-style: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* 🔥 Separadores sutiles */
+}
+
+
+
+.nav_itemsMobile li:last-child {
+    border-bottom: none; /* 🔥 Sin borde en el último */
+}
+
+/* Links del menú */
+.nav_links {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+.hero {
+    height:100vh; /*del 100% del alto de la pantalla*/
+    /*max-height:800px; /*estos es para problemas con ipads*/
+    position: relative;
+    width: 100%;
+    /*background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto1.jpeg); /*es una capa de transparencia*/
+    background-position: right; /*con esta opción, ajusto la posición de la imagen para que se vea sólo una parte de la imagen (en este caso la corro a la derecha)*/
+    clip-path: none;
+    z-index: 1;
+    display: grid; /*para crear dos filas*/
+    grid-template-rows: 60px 1fr; /* 60PX CON RESPECTO A 100PX EN DESKTOP espacio para el header*/
+    color: #fff; 
+}
+.home .hero {
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto1.jpeg); /*es una capa de transparencia*/
+    background-size:cover; /*para que se adapte a la página*/
+    height: 100vh;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+    z-index:1;
+}
+
+/*si el position fixed es hijo de clipp path en vez de fijarse al navegador se fija al elemento clipp path, por eso creo un pseudoelemento a partir de hero, que tenga un contenido vacío:*/
+/*que se posicione absolutamente a su padre (hero)*/
+/*.hero::before{
+    content: "";
+    position: absolute;    
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto1.jpeg); es una capa de transparencia
+    background-size:cover; /*para que se adapte a la página
+    background-position: right; /*con esta opción, ajusto la posición de la imagen para que se vea sólo una parte de la imagen (en este caso la corro a la derecha)
+    clip-path: none;
+    z-index:-1;
+}*/
+.heroe_title {
+    font-size: 1.5rem;
+}
+.heroe_paragraph {
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+.container {
+    width: 10%; /*no quiero que ocupe el 100%*/
+    max-width: 120px; /*pero este es el ancho maximo*/
+    margin: 0 auto; /*que se centre verticalmente con un margen auto hacia los lados*/
+    overflow: hidden;
+    padding: var(--padding-container); /*para usar la cust.prop.pongo la función var y dentro su nombre*/
+}
+.heroe_container {
+    --padding-container: 0;
+    display:grid; /*creo filas de forma automática y quiero que sean del máximo contenido*/
+    grid-auto-rows: max-content; /*así no ocupan más de lo que deberían*/
+    align-content: center; /*centro verticalmente*/
+    gap: 1em;
+    text-align: right; /*centro horizontalmente*/
+    padding-right:50px ; /*para que no se pegue al recorte*/
+    }
+.nav{
+    --padding-container:0; /*no quiero las custome properties en esta etiqueta*/
+    height: 100%;
+    max-width:1800px;
+    width: 100%;    
+    display: flex; /*pone elementos uno al lado del otro*/
+    align-items: center; /*los alinea verticalmente*/
+    justify-content: flex-end; /*los manda a la derecha*/
+    background-color: white;
+    font-size: 18px;
+    gap: 2em;
+}
+.nav_link {
+    display: none;
+}
+/* Estilo para el ícono del menú hamburguesa */
+
+.nav_menu {
+    cursor: pointer;
+    display: block; /* Siempre visible en mobile */
+    z-index: 100; /* Encima de otros elementos */
+    position: absolute; /* Posición absoluta */
+    left: 30px; /* Distancia desde la izquierda */
+    top: 13px; /* Distancia desde el top */
+}
+.audioControl {
+    cursor: pointer;
+    position:absolute;
+    right: 30px;
+    top:20px;
+    transition: transform 0.3s ease;
+}
+.audioControl img {
+    width: 20px;
+    height: 20px;
+}
+/* Estilo de la imagen del menú */
+.nav_img {
+    width: 30px;
+    height: 30px;
+}
+.close_img {
+    width: 30px;
+    height: 30px;
+}
+
+/*About*/
+
+.container-partitutos {
+    text-align:center; /*centra el título de partituras y tutoriales*/
+}
+.about_title {
+    color: var(--color-title);
+    font-size: 1.2rem;
+    margin-bottom: 25px; /*separación entre cada uno de los articles*/ 
+}
+
+.about_link {
+    text-decoration: none; /*saco subrayado a títulos de tutoriales y partituras*/
+}
+.about_paragraph {
+    line-height: 1.5; /*separación entre renglones de cada parrafo*/
+    font-size: 1rem;
+    text-align: center;
+    margin: 20px;
+}
+
+.about_main {
+    padding-top: 20px;
+}
+
+.about_icon {
+    width: 200px; /*es la imagen*/
+    height: 160px;
+}
+.about_main {
+    padding-top: 80px;
+    display: grid;
+    align-items: flex-start;
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-top:10px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, auto)); /*creo columnas dinámicas. Le pido que repita tantas columnas como sea posible con un mínimo de 260px por columna y un máximo automático */
+}
+
+.about_icons {
+    display: grid;
+    gap: 1em;
+    justify-items: center;
+    width: 250px;
+    overflow: hidden; /*para que todo lo que salga de este elemento se oculte*/
+    margin: 0 auto; /*para que ce centre horizontalmente*/
+    margin-top: 10px;
+    padding:20px 20px 20px 20px;
+    background-color:#2e05058c;
+    margin-bottom:25px;
+    opacity:0.7;
+    border-radius:10px;        
+    transition: transform 0.3s ease; /* Suaviza la transición en 0.3 segundos */
+}
+
+.about_icons:hover {
+    transform: scale(1.1);
+}
+.footer {
+    color: #fff; /* Texto claro */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/partituras.jpg);
+    background-size: cover; /* Asegura que la imagen cubra todo el espacio */
+ }
+
+
+
+/* Formulario */
+
+.footer-contact {
+    margin-bottom: 20px;
+    width:70%;
+    margin-top:90px; /*para que cuando haga click en contacto y se desplace, no aparezca parte blanca de la sección de arriba*/
+    padding-bottom:80px;
+
+}
+.footer-form {
+    display: flex;
+    flex-direction: column; /*alinea el botón de enviar por debajo de los formularios, sino los pondría al lado*/
+    gap: 30px; /*separación entre Dejame tu consulta y el botón de enviar mensaje/*/
+    margin-top:40px; /*separación de formulario con respecto a "Contactate"*/
+}
+
+
+.footer-inputs { 
+/* Características de los inputs del formulario: alineación, separación entre sí, etc... */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.footer-input,
+#mensaje {
+    width: 100%; /*ancho de los inputs del formulario*/ 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.footer-button {
+    background-color: #12063f; /* Botón azul */
+    color: white;
+    padding: 10px 20px; /*padding entre Enviar Mensaje y su contenedor*/
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-button:hover {
+    background-color: #0056b3;
+}
+
+/* Íconos sociales */
+.footer-info {
+    background-color: #1D293F;
+    width: 100%;
+    padding: 20px;
+}
+.footer-social {
+/* características del contenedor de los íconos sociales */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top:10px;
+}
+
+/* Derechos reservados */
+.footer-copyright {
+    margin-top: 20px;
+    font-size: 10px;
+    color: white;
+    text-align:right;
+    font-weight:300;
+}
+
+/*----Desktop------*/
+
+@media (min-width: 768px) {
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100&display=swap');
+
+    /*creo custome properties, para acceder a ellas desde cualquier elemento:*/
+    :root{
+        --padding-container: 100px 0;
+        --color-title:#001A49;
+    }
+    
+    html {
+        font-size: 16px; /* Base para rem */
+        scroll-behavior: smooth;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body{
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        color: #333
+    }
+
+.container {
+    width: 90%; /*no quiero que ocupe el 100%*/
+    max-width: 1200px; /*pero este es el ancho maximo*/
+    margin: 0 auto; /*que se centre verticalmente con un margen auto hacia los lados*/
+    overflow: hidden;
+    padding: var(--padding-container); /*para usar la cust.prop.pongo la función var y dentro su nombre*/
+    
+}
+
+.hero {
+    position: relative; 
+    width:100%;
+    min-height:50vh;
+    background-image: url(/public/images/foto1.jpeg); /*es una capa de transparencia*/
+    opacity: 0.7; /* La imagen será un 30% opaca */
+    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+    background-position: center; /* Centra la imagen */
+    height:100vh; /*del 100% del alto de la pantalla*/
+    max-height:600px; /*estos es para problemas con ipads*/
+    display: grid; /*para crear dos filas*/
+    grid-template-rows: 100px 1fr; /*la primera de 100px y la segunda toma el contenido sobrante luego de 100px*/
+
+}
+
+.nav {
+    --padding-container:0 135px; /*no quiero las custome properties en esta etiqueta*/
+    height: 100%;
+    max-width:3000px;
+    width: 100%;    
+    display: flex; /*pone elementos uno al lado del otro*/
+    align-items: center;
+    background-color: white;
+    font-size: 18px;
+    gap: 2em;
+}
+
+.nav_link { 
+    margin-left: auto; /*para que se pasen a la derecha, porque estoy usando flexbox*/
+    padding: 0; /*nav_link es el ul*/
+    display: grid;
+    grid-auto-flow:column; /*le digo que su flujo sea en columna para que se ponga una al lado de la otra*/
+    grid-auto-columns: max-content; /*que cada una mida por defecto su máximo contenido y tenga une espaciado de 2em*/
+    gap: 2em;   
+}
+
+.nav_items {
+    list-style: none; /*quito viñetas (estilo de listas)*/
+    display: flex;
+    align-items: center; 
+    padding: 20px;
+}
+
+.nav_links {
+    color: #333;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1rem;   
+}
+
+.nav_links:hover {
+    color: #3317178c;
+    text-decoration: underline;
+}
+
+.nav_links_active {
+    font-weight:bold;
+    color: #8B3A3A;
+    border-bottom: 2px solid #8B3A3A;
+    text-decoration: none;
+}
+
+.audioControl {
+    cursor: pointer;
+    margin-right: 40px;
+    margin-top: 13px;
+}
+.audioControl img {
+    width: 30px;
+    height: 30px;
+}
+
+.nav_menu {
+    margin-left: auto;
+    cursor: pointer;
+    display: none;
+}
+.nav_img {
+    display: block;
+    width: 30px;
+}
+
+.nav_close {
+    display: var(--show,none);
+}
+
+/*Hero container */
+
+
+
+.heroe_container {
+   max-width: 800px;
+   --padding-container: 0;
+   display:grid; /*creo filas de forma automática y quiero que sean del máximo contenido*/
+   grid-auto-rows: max-content; /*así no ocupan más de lo que deberían*/
+   align-content: center; /*centro verticalmente*/
+   gap: 1em;
+   padding-bottom: 100px; /*para que no se pegue al recorte*/
+   text-align:center; /*centro horizontalmente*/
+}
+
+.heroe_title {
+    font-size: 4rem;
+}
+
+.heroe_paragraph {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.cta { 
+    display: inline-block; /*este elemento es "llamado a la acción"*/
+    background-color: #2091F9;
+    justify-self: center; /*para que lo centre*/
+    color: #fff; 
+    text-decoration: none;
+    padding: 13px 30px;
+    border-radius: 32px;
+}
+
+/*About*/
+
+.container-partitutos {
+    text-align:center;
+
+}
+.subtitulo {
+    line-height: 1.7;
+    font-size: 22px;
+    font-weight:300;
+    padding: 20px 120px;
+}
+.about_title {
+    color: black;
+    font-weight:bold;
+    font-size: 1.5rem;
+    margin-bottom: 25px; /*separación entre cada uno de los articles*/ 
+}
+
+.about_link {
+    text-decoration: none;
+}
+.about_paragraph {
+    line-height: 1.7; /*separación entre renglones de cada parrafo*/
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 20px;
+}
+.about_paragraph_icons {
+    font-size: 0.8rem;
+    color: black;
+    line-height:1.5;
+    margin:20px;
+}
+
+
+.about_main {
+    padding-top: 80px;
+    display: grid;
+    align-items: flex-start;
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-top:10px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, auto)); /*creo columnas dinámicas. Le pido que repita tantas columnas como sea posible con un mínimo de 260px por columna y un máximo automático */
+}
+
+.about_icons {
+    display: grid;
+    gap: 1em;
+    justify-items: center;
+    width: 320px;
+    overflow: hidden; /*para que todo lo que salga de este elemento se oculte*/
+    margin: 0 auto; /*para que ce centre horizontalmente*/
+    margin-top: 10px;
+    padding-top:10px;
+    background-color:#dfdfe6ee;
+    margin-bottom:25px;
+    opacity:0.7;
+    border-radius:10px;        
+    transition: transform 0.3s ease; /* Suaviza la transición en 0.3 segundos */
+}
+
+.about_icons:hover {
+    transform: scale(1.1);
+}
+
+.about_icon {
+    width: 200px; /*es la imagen*/
+    height: 160px;
+}
+
+/* Formulario */
+
+.footer-contact {
+    margin-bottom: 20px;
+    width:70%;
+    margin-top:60px; /*para que cuando haga click en contacto y se desplace, no aparezca parte blanca de la sección de arriba*/
+    padding:0px;
+}
+
+.footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+    margin-top:40px; /*separación de formulario con respecto a "Contactate"*/
+}
+
+.footer-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.footer-input,
+#mensaje {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.footer-button {
+    background-color: #12063f; /* Botón azul */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-button:hover {
+    background-color: #0056b3;
+}
+
+/* Íconos sociales */
+.footer-info {
+    background-color: #1D293F;
+    width: 100%;
+    padding: 20px;
+}
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-top:10px;
+}
+
+.redes {
+    font-weight:300;
+}
+
+.footer-icon img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1); /* Invierte los colores para que se vean claros en fondo oscuro */
+    transition: transform 0.3s;
+}
+
+.footer-icon img:hover {
+    transform: scale(1.2);
+}
+
+/* Derechos reservados */
+.footer-copyright {
+    margin-top: 20px;
+    font-size: 10px;
+    color: white;
+    text-align:right;
+    font-weight:300;
+}
+}

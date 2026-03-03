@@ -1,0 +1,584 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100&display=swap');
+
+/*creo custome properties, para acceder a ellas desde cualquier elemento:*/
+:root{
+    --padding-container: 100px 0;
+    --color-title:#001A49;
+}
+
+html {
+    font-size: 16px; /* Base para rem */
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: "Poppins", sans-serif;
+}
+
+/* Estilo para el ícono del menú hamburguesa */
+.nav_menuMobile {
+    cursor: pointer;
+    display: block; /* Siempre visible en mobile */
+    z-index: 100; /* Encima de otros elementos */    
+}
+
+.container {
+    width: 90%; /*no quiero que ocupe el 100%*/
+    max-width: 1200px; /*pero este es el ancho maximo*/
+    margin: 0 auto; /*que se centre verticalmente con un margen auto hacia los lados*/
+    overflow: hidden;
+    padding: var(--padding-container); /*para usar la cust.prop.pongo la función var y dentro su nombre*/
+}
+
+.nav_dropdown { 
+    position: fixed;
+    top: 0;
+    left: 0; 
+    width: 80%;
+    height: 100vh;
+    background: transparent;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 🔥 Transición más suave */
+    pointer-events: none;
+}
+
+
+.nav_dropdown.show {
+    transform: translateX(0);
+    background: rgba(255, 255, 255, 0.95); /* 🔥 Más blanco, menos gris */
+    backdrop-filter: blur(20px); /* 🔥 Blur más pronunciado */
+    -webkit-backdrop-filter: blur(20px);
+    width: 70%; /* 🔥 Un poco más ancho */
+    max-width: 320px; /* 🔥 Máximo en pantallas grandes */
+    height: auto; /* 🔥 Altura automática según contenido */
+    padding: 40px 30px 40px 30px; /* 🔥 Más padding */
+    border-radius: 0 0 25px 0; /* 🔥 Redondeo solo a la derecha */
+    box-shadow: 6px 0 40px rgba(0, 0, 0, 0.2); /* 🔥 Un poco más de sombra */
+    opacity: 1;
+    pointer-events: auto;
+    top: 0; /* 🔥 Desde arriba completo */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Lo hice más oscuro (era 0.5) */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 99; /* Asegurate que esté justo debajo del menú (que tiene z-index: 100) */
+}
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.hero {
+    display: grid; /*para crear dos filas*/
+    grid-template-rows: 60px 1fr; /*la primera de 100px y la segunda toma el contenido sobrante luego de 100px*/
+    color: #fff; 
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto5.jpeg);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 95%, 0 80%);
+    background-size:contain; /*para que se adapte a la página*/
+    background-position: center bottom;
+    opacity: 0.7; /* La imagen será un 30% opaca */
+}
+
+
+.nav{
+    --padding-container:0; /*no quiero las custome properties en esta etiqueta*/
+    height: 100%;
+    max-width:1800px;
+    width: 100%;    
+    background-color: white;
+}
+
+.nav_link { 
+    display: none; /*No quiero que se vean las secciones en mobile*/   
+}
+
+.audioControl {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: transform 0.3s ease;
+}
+.audioControl img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Opcional: estilo para los enlaces del menú */
+.nav_itemsMobile {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* 🔥 Sin gap, lo manejamos con padding */
+    margin-left: 0; /* 🔥 Sin margin negativo */
+    padding: 0;
+    list-style: none;
+}
+.nav_itemsMobile a.active {
+    color: #8B3A3A; /* 🔥 Color burdeos/rojo del sitio */
+    font-weight: 600; /* 🔥 Más bold */
+    background: rgba(139, 58, 58, 0.08); /* 🔥 Fondo sutil */
+    border-left: 4px solid #8B3A3A; /* 🔥 Barra indicadora */
+    padding-left: 21px; /* 🔥 Compensa el borde */
+}
+
+.nav_itemsMobile a {
+    display: block;
+    text-decoration: none;
+    color: #2c2c2c; /* 🔥 Gris más oscuro para mejor contraste */
+    font-size: 18px; /* 🔥 Más grande */
+    font-weight: 400; /* 🔥 Un poco más bold */
+    padding: 20px 15px; /* 🔥 Más padding vertical */
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* 🔥 Efecto hover elegante */
+.nav_itemsMobile a:hover {
+    color: #8B3A3A; /* 🔥 Color acorde al sitio (burdeos) */
+    background: rgba(139, 58, 58, 0.05); /* 🔥 Fondo sutil al hover */
+    padding-left: 25px; /* 🔥 Se desplaza un poco a la derecha */
+}
+
+.nav_itemsMobile li {
+    list-style: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* 🔥 Separadores sutiles */
+}
+
+.nav_itemsMobile li:last-child {
+    border-bottom: none; /* 🔥 Sin borde en el último */
+}
+
+.nav_link { 
+    display: none; /*No quiero que se vean las secciones en mobile*/   
+}
+
+
+.nav_img {
+    display: block;
+    width: 30px;
+}
+
+.nav_menu {
+    cursor: pointer;
+    display: block; /* Siempre visible en mobile */
+    z-index: 100; /* Encima de otros elementos */
+    position: absolute; /* Posición absoluta */
+    left: 30px; /* Distancia desde la izquierda */
+    top: 13px; /* Distancia desde el top */
+}
+.nav_img {
+    display: block;
+    width: 30px;
+}
+
+.nav_links {
+    color: #333;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1rem;
+}
+.nav_links:hover {
+    color: #3317178c;
+    text-decoration: underline;
+}
+.nav_links.active {
+    font-weight: bold;
+    color: #6832328c;
+}
+.audioControl {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: transform 0.3s ease;
+}
+.audioControl img {
+    width: 20px;
+    height: 20px;
+}
+
+.nav_menu {
+    cursor: pointer;
+    display: block; /* Siempre visible en mobile */
+    z-index: 100; /* Encima de otros elementos */
+    position: absolute; /* Posición absoluta */
+    left: 30px; /* Distancia desde la izquierda */
+    top: 13px; /* Distancia desde el top */
+}
+.nav_img {
+    display: block;
+    width: 30px;
+}
+
+.nav_close {
+    display: var(--show,none);
+}
+
+.heroe_title, .heroe_paragraph {
+    text-align: center;
+    margin: 50px;
+}
+/* Sección de videos */
+.videos-section {
+    padding: 45px;
+    background-color: #f9f9f9; /* Fondo suave */
+    text-align: center;
+}
+
+/* Grilla de videos */
+.video-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
+}
+
+/* Estilo de los videos */
+.video-item iframe {
+    width: 80%;
+    height: auto;
+    aspect-ratio: 16/9; /* Mantiene proporción del video */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+    color: #fff; /* Texto claro */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/partituras.jpg);
+    background-size: cover; /* Asegura que la imagen cubra todo el espacio */
+}
+
+/* Formulario */
+.footer-contact {
+    margin-bottom: 20px;
+    margin-top:90px;
+    width:70%;
+    padding-bottom:80px;
+}
+
+.footer-form {
+    display: flex;
+    flex-direction: column; /*alinea el botón de enviar por debajo de los formularios, sino los pondría al lado*/
+    gap: 30px; /*separación entre Dejame tu consulta y el botón de enviar mensaje/*/
+    margin-top:40px; /*separación de formulario con respecto a "Contactate"*/
+}
+
+
+.footer-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.footer-input,
+#mensaje {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.footer-button {
+    background-color: #12063f; /* Botón azul */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-button:hover {
+    background-color: #0056b3;
+}
+
+/* Íconos sociales */
+.footer-info {
+    background-color: #1D293F;
+    width: 100%;
+    padding: 20px;
+}
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-top:10px;
+}
+
+.redes {
+    font-weight:300;
+}
+
+.footer-icon img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1); /* Invierte los colores para que se vean claros en fondo oscuro */
+    transition: transform 0.3s;
+}
+
+.footer-icon img:hover {
+    transform: scale(1.2);
+}
+
+/* Derechos reservados */
+.footer-copyright {
+    margin-top: 20px;
+    font-size: 10px;
+    color: white;
+    text-align:right;
+    font-weight:300;
+}
+
+@media (min-width: 768px) {
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100&display=swap');
+
+    /*creo custome properties, para acceder a ellas desde cualquier elemento:*/
+    :root{
+        --padding-container: 100px 0;
+        --color-title:#001A49;
+    }
+
+    html {
+        font-size: 16px; /* Base para rem */
+        scroll-behavior: smooth;
+    }
+
+    body{
+        font-family: "Poppins", sans-serif;
+    }
+
+    .container {
+        width: 90%; /*no quiero que ocupe el 100%*/
+        max-width: 1200px; /*pero este es el ancho maximo*/
+        margin: 0 auto; /*que se centre verticalmente con un margen auto hacia los lados*/
+        overflow: hidden;
+        padding: var(--padding-container); /*para usar la cust.prop.pongo la función var y dentro su nombre*/
+    }
+
+    .hero {
+        background-size: cover;
+        width:100%;
+        height:100vh; /*del 100% del alto de la pantalla*/
+        min-height:100px;
+        max-height:300px; /*estos es para problemas con ipads*/
+        position: relative; 
+        display: grid; /*para crear dos filas*/
+        grid-template-rows: 100px 1fr; /*la primera de 100px y la segunda toma el contenido sobrante luego de 100px*/
+        color: #fff; 
+        background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto1.jpeg);
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 95%, 0 80%);
+        background-size: cover; /*para que se adapte a la página*/
+        background-position: center bottom;
+        opacity: 0.7; /* La imagen será un 30% opaca */
+    }
+
+
+    .nav{
+        --padding-container:0 135px; /*no quiero las custome properties en esta etiqueta*/
+        height: 100%;
+        max-width:3000px;
+        width: 100%;    
+        display: flex; /*pone elementos uno al lado del otro*/
+        align-items: center;
+        background-color: white;
+        font-size: 18px;
+        gap: 2em;
+        }
+
+    .nav_link { 
+        margin-left: auto; /*para que se pasen a la derecha, porque estoy usando flexbox*/
+        padding: 0; /*nav_link es el ul*/
+        display: grid;
+        grid-auto-flow:column; /*le digo que su flujo sea en columna para que se ponga una al lado de la otra*/
+        grid-auto-columns: max-content; /*que cada una mida por defecto su máximo contenido y tenga une espaciado de 2em*/
+        gap: 2em;   
+    }
+
+    .nav_items {
+        list-style: none; /*quito viñetas (estilo de listas)*/
+        display: flex;
+        align-items: center; 
+        padding: 20px;
+    }
+
+    .nav_links {
+        color: #333;
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 1rem;
+    }
+    .nav_links:hover {
+        color: #3317178c;
+        text-decoration: underline;
+    }
+
+    .nav_links_active {
+        font-weight:bold;
+        color: #8B3A3A;
+        border-bottom: 2px solid #8B3A3A;
+        text-decoration: none;
+        } 
+    .audioControl {
+        cursor: pointer;
+        margin-right: 40px;
+        margin-top: 13px;
+    }
+
+    .audioControl img {
+        width: 30px;
+        height: 30px;
+    }
+
+
+    .nav_menu {
+        margin-left: auto;
+        cursor: pointer;
+        display: none;
+    }
+    .nav_img {
+        display: block;
+        width: 30px;
+    }
+
+    .nav_close {
+        display: var(--show,none);
+    }
+
+    .heroe_title, .heroe_paragraph {
+        text-align: center;
+        margin: 50px;
+    }
+    /* Sección de videos */
+    .videos-section {
+        padding: 45px;
+        background-color: #f9f9f9; /* Fondo suave */
+        text-align: center;
+    }
+
+    /* Grilla de videos */
+    .video-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        justify-items: center;
+    }
+
+    /* Estilo de los videos */
+    .video-item iframe {
+        width: 80%;
+        height: auto;
+        aspect-ratio: 16/9; /* Mantiene proporción del video */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer {
+        color: #fff; /* Texto claro */
+        text-align: center;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/partituras.jpg);
+        background-size: cover; /* Asegura que la imagen cubra todo el espacio */
+    }
+
+    /* Formulario */
+    .footer-contact {
+        margin-bottom: 20px;
+        padding: 50px;
+        width:50%;
+    }
+
+    .footer-form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px; 
+        margin-top:40px; /*separación de formulario con respecto a "Contactate"*/
+    }
+
+    .footer-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .footer-input,
+    #mensaje {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .footer-button {
+        background-color: #12063f; /* Botón azul */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .footer-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Íconos sociales */
+    .footer-info {
+        background-color: #1D293F;
+        width: 100%;
+        padding: 20px;
+    }
+    .footer-social {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        align-items: center;
+        margin-top:10px;
+    }
+
+    .redes {
+        font-weight:300;
+    }
+
+    .footer-icon img {
+        width: 30px;
+        height: 30px;
+        filter: invert(1); /* Invierte los colores para que se vean claros en fondo oscuro */
+        transition: transform 0.3s;
+    }
+
+    .footer-icon img:hover {
+        transform: scale(1.2);
+    }
+
+    /* Derechos reservados */
+    .footer-copyright {
+        margin-top: 20px;
+        font-size: 10px;
+        color: white;
+        text-align:right;
+        font-weight:300;
+    }
+}

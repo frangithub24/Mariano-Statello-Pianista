@@ -1,0 +1,172 @@
+
+
+
+
+<img src="/public/images/audio.svg" class="audio" alt="play-audio" onclick="toggleAudio()">
+                <audio id="backgroundAudio" loop>
+                    <img src="./public/images/close.svg" type="audio/wav">
+                </audio>
+
+
+Explicación de isPlaying: 
+
+¿Qué significa !?
+El operador ! en JavaScript es el operador lógico de negación, que invierte el valor de una expresión booleana:
+
+Si algo es true, ! lo convierte en false.
+Si algo es false, ! lo convierte en true.
+Por ejemplo:
+
+javascript
+Copiar código
+let isPlaying = false;
+isPlaying = !isPlaying; // Ahora isPlaying será true
+isPlaying = !isPlaying; // Ahora isPlaying será false nuevamente
+¿Por qué es importante en tu código?
+La variable isPlaying representa el estado actual del audio:
+
+Si está sonando (true).
+Si está detenido o pausado (false).
+Cuando el usuario hace clic en el ícono, necesitas cambiar el estado al opuesto. Esto lo haces con:
+
+javascript
+Copiar código
+isPlaying = !isPlaying;
+Sin esta línea:
+El estado nunca cambiaría, por lo que siempre ejecutaría la misma acción (por ejemplo, play() o pause()), ignorando el clic del usuario.
+
+Con esta línea:
+El estado alterna correctamente:
+
+Si el audio está sonando (isPlaying = true), al hacer clic se detiene (isPlaying = false).
+Si el audio está detenido (isPlaying = false), al hacer clic comienza a reproducirse (isPlaying = true).
+Ejemplo visual del flujo:
+Estado inicial:
+
+javascript
+Copiar código
+isPlaying = false;
+El audio está detenido.
+Al hacer clic, se ejecuta:
+play().
+Se cambia el ícono a "stop".
+isPlaying = true.
+Siguiente clic:
+
+javascript
+Copiar código
+isPlaying = true;
+El audio está sonando.
+Al hacer clic, se ejecuta:
+pause() y se reinicia el audio.
+Se cambia el ícono a "play".
+isPlaying = false.
+
+
+
+<section class="partituras-container">
+            <div class="partituras-grid">
+                <!-- Partitura 1 -->
+                <article class="partitura-item">
+                    <img src="/public/images/partitura1-preview.png" alt="Vista previa de Partitura 1" class="partitura-img">
+                    <h3 class="partitura-title">Partitura 1: Zamba</h3>
+                    <p class="partitura-desc">Género: Folklore</p>
+                    <a href="/public/images/EL CHOCLO.pdf" target="_blank" class="partitura-btn">Ver completa</a>
+                </article>
+                <!-- Partitura 2 -->
+                <article class="partitura-item">
+                    <img src="/public/images/partitura2-preview.png" alt="Vista previa de Partitura 2" class="partitura-img">
+                    <h3 class="partitura-title">Partitura 2: Tango</h3>
+                    <p class="partitura-desc">Género: Tango</p>
+                    <a href="/public/pdf/partitura2.pdf" target="_blank" class="partitura-btn">Ver completa</a>
+                </article>
+                <!-- Agrega más partituras según sea necesario -->
+            </div>
+        </section>
+
+
+
+partituras
+
+.hero {
+    background-size: cover;
+    width:100%;
+    height:100vh; /*del 100% del alto de la pantalla*/
+    min-height:600px;
+    max-height:800px; /*estos es para problemas con ipads*/
+    position: relative; 
+    display: grid; /*para crear dos filas*/
+    grid-template-rows: 100px 1fr; /*la primera de 100px y la segunda toma el contenido sobrante luego de 100px*/
+    color: #fff; 
+}
+
+/*si el position fixed es hijo de clipp path en vez de fijarse al navegador se fija al elemento clipp path, por eso creo un pseudoelemento a partir de hero, que tenga un contenido vacío:*/
+/*que se posicione absolutamente a su padre (hero)*/
+.hero::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto4.jpeg); /*es una capa de transparencia*/
+    background-size:cover; /*para que se adapte a la página*/
+    background-position: center bottom;
+    opacity: 0.5; /* La imagen será un 30% opaca */
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 95%, 0 80%);
+    z-index:-1;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hero {
+    background-size: cover;
+    width:100%;
+    height:100vh; /*del 100% del alto de la pantalla*/
+    min-height:100px;
+    max-height:300px; /*estos es para problemas con ipads*/
+    position: relative; 
+    display: grid; /*para crear dos filas*/
+    grid-template-rows: 100px 1fr; /*la primera de 100px y la segunda toma el contenido sobrante luego de 100px*/
+    color: #fff; 
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(/public/images/foto4.jpeg);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 95%, 0 80%);
+    background-size:cover; /*para que se adapte a la página*/
+    background-position: center bottom;
+    opacity: 0.7; /* La imagen será un 30% opaca */
+    z-index:-1;
+}
+
+.heroe_container {
+   display:grid; /*creo filas de forma automática y quiero que sean del máximo contenido*/
+   grid-auto-rows: max-content; /*así no ocupan más de lo que deberían*/
+   align-content: center; /*centro verticalmente*/
+   gap: 1em;
+   padding-bottom: 100px; /*para que no se pegue al recorte*/
+   text-align:center; /*centro horizontalmente*/
+   margin-top: 50px;
+}
+
+Marianopiano=2025
+
+
+
+id="menuToggle">
+                <img src="./public/images/menu.svg" class="nav_img" alt="">
+                <img src="./public/images/cerrar.svg" class="close_img hidden" alt="Cerrar">
+                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
