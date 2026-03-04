@@ -1,0 +1,406 @@
+/* ========================================
+   GLOBAL.CSS - Estilos compartidos por todas las páginas
+   ======================================== */
+
+/* Importar fuente de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100&display=swap');
+
+/* ========================================
+   VARIABLES CSS (Custom Properties)
+Define variables reutilizables que puedo utilizar en TOTO el CSS
+   ======================================== */
+:root {
+    --padding-container: 100px 0;
+    --color-title: #001A49;
+    --color-primary: #8B3A3A;
+    --transition-speed: 0.3s;
+}
+
+/* ========================================
+   ESTILOS BASE
+   ======================================== */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth; /*cuando hago click en contacto, se desliza suavemente en lugar de saltar*/
+}
+
+body {
+    font-family: "Poppins", sans-serif; /*define la fuente para TODO el sitio*/
+    margin: 0;
+    padding: 0; /*elimina espacio que por defecto tenga el navegador*/
+}
+
+/* Prevenir scroll cuando el menú está abierto */
+.no-scroll {
+    overflow: hidden;
+}
+
+/* ========================================
+   CONTENEDOR GENERAL
+   ======================================== */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: var(--padding-container);
+}
+
+/* ========================================
+   OVERLAY (capa oscura detrás del menú hamburguesa) Oscurece el fondo y permite cerrar el menú al hacer click en ella.
+   Por defecto invisible: opacity 0.
+
+   ======================================== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none; /*no se puede hacer click cuando está oculta*/
+    transition: opacity var(--transition-speed) ease;
+    z-index: 98;
+}
+
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto; /*se puede hacer click cuando está visible, para cerrar el menú*/
+}
+/*con la clase .show se hace visible: opacity 1*/
+
+
+/* ========================================
+   NAVEGACIÓN - MOBILE
+   ======================================== */
+
+/* Botón del menú hamburguesa */
+.nav_menu {
+    cursor: pointer;
+    display: block;
+    z-index: 1001;
+    position: absolute;
+    left: 30px;
+    top: 13px;
+}
+
+.nav_img {
+    display: block;
+    width: 30px;
+}
+
+/* Control de audio (play/pause) */
+.audioControl {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: transform var(--transition-speed) ease;
+}
+
+.audioControl img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Menú desplegable (hamburguesa) */
+.nav_dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100vh;
+    background: transparent;
+    z-index: 1000;
+    transform: translateX(-100%);/*lo esconde fuera de la pantalla a la izquierda*/ 
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.nav_dropdown.show {
+    transform: translateX(0); /*lo trae adentro de la pantalla*/
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px); /*efecto blur para el fondo del menú*/
+    -webkit-backdrop-filter: blur(20px);
+    width: 70%;
+    max-width: 320px;
+    height: auto;
+    padding: 50px 30px 40px 30px;
+    border-radius: 0 0 25px 0;
+    box-shadow: 6px 0 40px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    pointer-events: auto;
+    top: 0;
+}
+
+/* Lista de links del menú mobile */
+.nav_itemsMobile {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav_itemsMobile li {
+    list-style: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nav_itemsMobile li:last-child {
+    border-bottom: none;
+}
+
+.nav_itemsMobile a {
+    display: block;
+    text-decoration: none;
+    color: #2c2c2c;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 20px 15px;
+    transition: all var(--transition-speed) ease;
+    position: relative;
+}
+
+/* Efecto hover en links del menú mobile */
+.nav_itemsMobile a:hover { /*al pasar el mouse el link se mueve 10px a la derecha y cambia de color*/
+    color: var(--color-primary);
+    background: rgba(139, 58, 58, 0.05);
+    padding-left: 25px; /*se desplaza a la derecha*/
+}
+
+/* Link activo (página actual) */
+.nav_itemsMobile a.active { /*el link de la página actual se resalta con un borde rojo a la izquierda*/
+    color: var(--color-primary);
+    font-weight: 600;
+    background: rgba(139, 58, 58, 0.08);
+    border-left: 4px solid var(--color-primary);
+    padding-left: 21px;
+}
+
+/* ========================================
+   NAVEGACIÓN - BASE (mobile first)
+   ======================================== */
+.nav {
+    --padding-container: 0;
+    height: 100%;
+    max-width: 1800px;
+    width: 100%;
+    background-color: white;
+}
+
+/* Ocultar menú desktop en mobile */
+.nav_link {
+    display: none;
+}
+
+/* ========================================
+   HERO (cabecera con imagen de fondo)
+   ======================================== */
+.hero {
+    display: grid;
+    grid-template-rows: 60px 1fr;
+    color: #fff;
+    min-height: auto;
+}
+
+.heroe_title,
+.heroe_paragraph {
+    text-align: center;
+    margin: 50px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+    color: #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(177, 86, 86, 0.55) 100%), 
+                      url(/public/images/partituras.jpg);
+    background-size: cover;
+}
+
+/* Sección de contacto */
+.footer-contact {
+    margin-bottom: 20px;
+    margin-top: 90px;
+    width: 70%;
+    padding-bottom: 80px;
+}
+
+.footer-title {
+    margin-bottom: 20px;
+}
+
+/* Formulario de contacto */
+.footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.footer-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-input,
+#mensaje {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.footer-button {
+    background-color: #12063f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.footer-button:hover {
+    background-color: #0056b3;
+}
+
+/* Íconos de redes sociales */
+.footer-info {
+    background-color: #1D293F;
+    width: 100%;
+    padding: 20px;
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.redes {
+    font-weight: 300;
+}
+
+.footer-icons img {
+    width: 30px;
+    height: 30px;
+    transition: transform var(--transition-speed);
+}
+
+.footer-icons img:hover {
+    transform: scale(1.2);
+}
+
+/* Derechos reservados */
+.footer-copyright {
+    margin-top: 20px;
+    font-size: 10px;
+    color: white;
+    text-align: right;
+    font-weight: 300;
+}
+
+/* ========================================
+   MEDIA QUERIES - Estilos para pantallas de 768px o más (tablets/desktops)
+   ======================================== */
+@media (min-width: 768px) {
+    
+    /* ========================================
+       NAVEGACIÓN - DESKTOP
+       ======================================== */
+    .nav {
+        --padding-container: 0 135px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        gap: 2em;
+    }
+
+    /* Mostrar menú horizontal en desktop */
+    .nav_link {
+        margin-left: auto;
+        padding: 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: max-content;
+        gap: 2em;
+    }
+
+    .nav_items {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .nav_links {
+        color: #333;
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 1rem;
+        transition: color var(--transition-speed);
+    }
+
+    .nav_links:hover {
+        color: #3317178c;
+        text-decoration: underline;
+    }
+
+    /* Link activo en desktop */
+    .nav_links_active {
+        font-weight: bold;
+        color: var(--color-primary);
+        border-bottom: 2px solid var(--color-primary);
+        text-decoration: none;
+    }
+
+    /* Control de audio en desktop */
+    .audioControl {
+        margin-right: 40px;
+        margin-top: 13px;
+    }
+
+    .audioControl img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Ocultar menú hamburguesa en desktop */
+    .nav_menu {
+        display: none;
+    }
+
+    /* ========================================
+       HERO - DESKTOP
+       ======================================== */
+    .hero {
+        grid-template-rows: 100px 1fr;
+        height: 100vh;
+        max-height: 300px;
+    }
+
+    /* ========================================
+       FOOTER - DESKTOP
+       ======================================== */
+    .footer-contact {
+        padding: 50px;
+        width: 50%;
+    }
+}

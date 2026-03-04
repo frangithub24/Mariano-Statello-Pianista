@@ -1,0 +1,14 @@
+Explicación JS CONTACTO:
+
+Resumen de lo que pasa
+El usuario hace clic en el enlace con ID contacto-link.
+El evento click se detecta y se ejecuta el código asociado.
+Se cancela el comportamiento predeterminado del enlace (e.preventDefault()).
+Se selecciona la sección de contacto con id="contacto".
+El navegador se desplaza suavemente hacia esa sección usando scrollIntoView.
+¿Por qué usar "contacto-link"?
+El ID contacto-link es solo una forma de identificar de manera única el enlace dentro del HTML. Esto es útil porque:
+
+Si más adelante necesitas asociar eventos con otros enlaces, no se confundirán.
+Usar IDs garantiza que seleccionas exactamente el elemento que quieres manipular.
+Por ejemplo, podrías tener otro enlace con un ID diferente, como bio-link, y añadirle su propia funcionalidad sin interferir con el evento del enlace "Contacto".

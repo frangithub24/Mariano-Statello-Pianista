@@ -1,0 +1,117 @@
+/* ========================================
+   PARTITURAS.CSS - Estilos específicos de la página Partituras
+   ======================================== */
+
+/* ========================================
+   HERO - Mobile
+   ======================================== */
+.hero {
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), 
+                      url(/public/images/foto5.jpeg);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 95%, 0 80%);
+    background-size: contain;
+    background-position: center bottom;
+    opacity: 0.7;
+}
+
+/* ========================================
+   SECCIÓN DE PARTITURAS
+   ======================================== */
+.partituras-section {
+    padding: 30px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.partituras-section h2 {
+    color: var(--color-title);
+    margin-bottom: 30px;
+}
+
+/* Grid de partituras */
+.partituras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+/* Cada tarjeta de partitura */
+.partitura-item {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.partitura-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Preview de la partitura */
+.partitura-preview {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.partitura-preview img {
+    width: 100%;
+    height: 260px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.partitura-item img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón de WhatsApp */
+.btn-whatsapp {
+    background-color: #8b4444;
+    border-radius: 8px;
+    border: none;
+    width: 90%;
+    margin-top: 20px;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+    transform: scale(1.05);
+    background-color: #a05555;
+}
+
+.btn-whatsapp a {
+    display: block;
+    color: black;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* ========================================
+   MEDIA QUERIES - DESKTOP
+   ======================================== */
+@media (min-width: 768px) {
+    
+    .hero {
+        background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), 
+                          url(/public/images/foto4.jpeg);
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .partituras-grid {
+        grid-template-columns: repeat(auto-fill, minwidth(500px, 1fr));
+    }
+}
