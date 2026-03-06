@@ -150,7 +150,7 @@ body{
     color: #fff; 
 }
 .home .hero {
-    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(public/images/foto1.jpeg); /*es una capa de transparencia*/
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(../images/foto1.jpeg); /*es una capa de transparencia*/
     background-size:cover; /*para que se adapte a la página*/
     height: 100vh;
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
@@ -305,7 +305,7 @@ body{
     align-items: center;
     flex-direction: column;
     gap: 20px;
-    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(public/images/partituras.jpg);
+    background-image: linear-gradient(180deg, hwb(0 6% 93% / 0.678) 0%, #b156568c 100%), url(../images/partituras.jpg);
     background-size: cover; /* Asegura que la imagen cubra todo el espacio */
  }
 
@@ -423,7 +423,7 @@ body{
     position: relative; 
     width:100%;
     min-height:50vh;
-    background-image: url(public/images/foto1.jpeg); /*es una capa de transparencia*/
+    background-image: url(../images/foto1.jpeg); /*es una capa de transparencia*/
     opacity: 0.7; /* La imagen será un 30% opaca */
     background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
     background-position: center; /* Centra la imagen */
