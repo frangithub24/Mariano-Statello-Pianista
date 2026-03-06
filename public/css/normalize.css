@@ -195,12 +195,17 @@
   
   /**
    * Correct the inability to style clickable types in iOS and Safari.
+   Hace que los botones se vean correctamente en Safari/iOS (sin esto, pueden verse raros en iPhone).
    */
   
   button,
   [type="button"],
   [type="reset"],
   [type="submit"] 
+  {
+  -webkit-appearance: button;
+}
+
 
   
   /**
@@ -219,12 +224,7 @@
    * Restore the focus styles unset by the previous rule.
    */
   
-  button:-moz-focusring,
-  [type="button"]:-moz-focusring,
-  [type="reset"]:-moz-focusring,
-  [type="submit"]:-moz-focusring {
-    outline: 1px dotted ButtonText;
-  }
+  
   
   /**
    * Correct the padding in Firefox.
