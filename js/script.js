@@ -1,55 +1,81 @@
-document.addEventListener("DOMContentLoaded",() => {
+document.addEventListener("DOMContentLoaded", () => {
 
-// Obtener el ícono de audio y el audio
-const menuToggle = document.getElementById('menuToggle');
-const dropdownMenu = document.getElementById('dropdownMenu');
-const menuLinks = document.querySelectorAll('.nav_links');
-const overlay = document.getElementById('overlay'); // NUEVO: overlay
-const audioElement = document.getElementById('audioElement'); 
-const audioControlIcon = document.getElementById('audioControlIcon');
+    // Obtener elementos
+    const menuToggle = document.getElementById('menuToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const menuLinks = document.querySelectorAll('.nav_links');
+    const overlay = document.getElementById('overlay');
+    const audioElement = document.getElementById('audioElement'); 
+    const audioControlIcon = document.getElementById('audioControlIcon');
 
-// Función para abrir/cerrar el menú
-menuToggle.addEventListener('click', () => {
-    dropdownMenu.classList.toggle('show');
-    overlay.classList.toggle('show');
-    document.body.classList.toggle('no-scroll');
-});
+    // 🔥 RECUPERAR estado del audio al cargar la página
+    const wasPlaying = localStorage.getItem('audioPlaying') === 'true';
+    const audioTime = parseFloat(localStorage.getItem('audioTime')) || 0;
 
-// Evento para cerrar el menú al hacer clic en un enlace
-menuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      dropdownMenu.classList.remove('show'); // Cierra el menú
-      overlay.classList.remove('show');
-      document.body.classList.remove('no-scroll');
-
-    });
-});
-// Cerrar menú al tocar overlay
-overlay.addEventListener('click', () => {
-    dropdownMenu.classList.remove('show'); 
-    overlay.classList.remove('show');
-    document.body.classList.remove('no-scroll');
-});
-
-
-
-    let isPlaying = false; //estado inicial, no suena
-
-    //al hacer click, si está reproduciéndose el audio, pausarlo y cambiar el ícono a play
-    //se reinicia con currenTime=0 y se cambia el ícono a play
-audioControlIcon.addEventListener("click", () => {
-    if (isPlaying) {
-        audioElement.pause();
-        audioElement.currentTime = 0; //si no coloco esto, cuando vuelvo a tocar play sigue la canción desde donde estaba 
-        audioControlIcon.src = 'public/images/audioPlay.svg';
-    } else {
-    //si el audio está detenido, al hacer click que suene y cambiar el ícono a stop
+    if (wasPlaying && audioElement) {
+        audioElement.currentTime = audioTime;
         audioElement.play();
-        audioControlIcon.src = 'public/images/audioStop.svg'; //cambia el ícono de stop
+        audioControlIcon.src = 'public/images/audioStop.svg';
     }
-    isPlaying = !isPlaying; //alterna los estados ! es operador de negación
-    });  
 
-    
-})
+    // 🔥 GUARDAR estado antes de cambiar de página
+    window.addEventListener('beforeunload', () => {
+        if (audioElement && !audioElement.paused) {
+            localStorage.setItem('audioPlaying', 'true');
+            localStorage.setItem('audioTime', audioElement.currentTime);
+        } else {
+            localStorage.setItem('audioPlaying', 'false');
+        }
+    });
 
+    // Menú hamburguesa - abrir/cerrar
+    menuToggle.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('show');
+        overlay.classList.toggle('show');
+        document.body.classList.toggle('no-scroll');
+    });
+
+    // Cerrar menú al hacer clic en un enlace
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            dropdownMenu.classList.remove('show');
+            overlay.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+        });
+    });
+
+    // Cerrar menú al tocar overlay
+    overlay.addEventListener('click', () => {
+        dropdownMenu.classList.remove('show'); 
+        overlay.classList.remove('show');
+        document.body.classList.remove('no-scroll');
+    });
+
+    // 🔥 CONTROL DE AUDIO - LÓGICA CORREGIDA
+    let isPlaying = wasPlaying; // 🔥 Inicializa según localStorage, no en false
+
+    audioControlIcon.addEventListener("click", () => {
+        if (isPlaying) {
+            // Pausar audio (SIN reiniciar a 0)
+            audioElement.pause();
+            audioControlIcon.src = 'public/images/audioPlay.svg';
+            localStorage.setItem('audioPlaying', 'false'); // 🔥 Guardar estado
+        } else {
+            // Reproducir audio
+            audioElement.play();
+            audioControlIcon.src = 'public/images/audioStop.svg';
+            localStorage.setItem('audioPlaying', 'true'); // 🔥 Guardar estado
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // 🔥 ACTUALIZAR currentTime continuamente mientras suena
+    if (audioElement) {
+        audioElement.addEventListener('timeupdate', () => {
+            if (!audioElement.paused) {
+                localStorage.setItem('audioTime', audioElement.currentTime);
+            }
+        });
+    }
+
+});
